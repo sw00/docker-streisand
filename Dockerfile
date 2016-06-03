@@ -12,7 +12,7 @@ RUN apk add --update \
 
 RUN pip install ansible markupsafe
 
-RUN pip install dopy==0.3.5
+RUN pip install boto dopy==0.3.5 apache-libcloud>=0.17.0 linode-python pyrax
 
 RUN git clone https://github.com/jlund/streisand.git
 
