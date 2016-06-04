@@ -8,11 +8,12 @@ RUN apk add --update \
     libffi-dev \
     openssl-dev \
     openssh \
+    linux-headers \
     git
 
 RUN pip install ansible markupsafe
 
-RUN pip install boto dopy==0.3.5 apache-libcloud>=0.17.0 linode-python pyrax
+RUN pip install boto dopy==0.3.5 "apache-libcloud>=0.17.0" linode-python pyrax
 
 RUN git clone https://github.com/jlund/streisand.git
 
