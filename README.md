@@ -20,6 +20,18 @@ Assuming keys are in the current directory, denoted by `$(pwd)`, you can run:
 
 `docker run -it -v $(pwd):/root/.ssh --name streisand sw00/streisand`
 
+# Retrieve generated docs 
+
+Streisand generates docs with details on how to connect to the newly configured server.
+To retrieve them from the container:
+
+```
+docker exec streisand tar -C /streisand -cz - generated-docs > streisand.tgz &&\
+tar xvf streisand.tgz
+```
+
+Then simply open `./generated-docs/streisand.html` on your local machine.
+
 # Caveats
 
-Currently only supports DigitalOcean provider.
+Currently only <s>supports</s>tested on DigitalOcean provider.
