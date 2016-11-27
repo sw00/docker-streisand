@@ -12,7 +12,7 @@ Follow the prompts to create the new ssh key.
 
 Mount the data container and run streisand:
 
-`docker run -it --name --volumes-from streisand-data streisand sw00/streisand`
+`docker run -it --name streisand --volumes-from streisand-data sw00/streisand`
 
 # Use a pre-existing key
 
