@@ -2,36 +2,48 @@ A Docker image to run [Streisand](https://github.com/jlund/streisand).
 
 To use you will need to generate an ssh key first or mount a directory with existing keys.
 
-# Generate a key in a data container
+# Quickstart
 
-Run ssh-keygen in a data container:
-
-`docker run -it --name streisand-data sw00/streisand ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa`
-
-Follow the prompts to create the new ssh key.
-
-Mount the data container and run streisand:
-
-`docker run -it --name streisand --volumes-from streisand-data sw00/streisand`
-
-# Use a pre-existing key
-
-Assuming keys are in the current directory, denoted by `$(pwd)`, you can run:
-
-`docker run -it -v $(pwd):/root/.ssh --name streisand sw00/streisand`
-
-# Retrieve generated docs 
-
-Streisand generates docs with details on how to connect to the newly configured server.
-To retrieve them from the container:
+1. Create a data container.
 
 ```
-docker exec streisand tar -C /streisand -cz - generated-docs > streisand.tgz &&\
-tar xvf streisand.tgz
+docker run --name streisand-data sw00/streisand
 ```
 
-Then simply open `./generated-docs/streisand.html` on your local machine.
+2. Generate a new default SSH key.
+
+```
+docker run -it --rm --volumes-from=streisand-data \
+	sw00/streisand \
+	ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -N ''
+```
+
+3. Execute streisand.
+
+```
+docker run -it --rm --volumes-from=streisand-data sw00/streisand
+```
+
+4. Retrieve generated docs.
+
+```
+docker run --rm --volumes-from=streisand-data -v $(pwd):/output sw00/streisand cp -r /streisand/generated-docs /output
+```
+
+5. Generated docs can now be found at `./generated-docs/streisand.html`.
+
+
+# Additional Information
+
+## The Docker Image
+
+The `sw00/streisand` image declares the following two volume mounts:
+
+* `/root/.ssh/`: streisand expects your provider's default ssh key, here saved as `id_rsa.pub`.
+
+* `/streisand/generated-docs/`: upon completion, streisand will publish connection information in this directory as html files.
+
 
 # Caveats
 
-Currently only <s>supports</s>tested on DigitalOcean provider.
+Currently only <s>supports</s>tested on the DigitalOcean provider.
