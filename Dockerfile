@@ -18,6 +18,7 @@ RUN pip install boto dopy==0.3.5 "apache-libcloud>=0.17.0" linode-python pyrax
 RUN git clone https://github.com/jlund/streisand.git
 
 VOLUME /root/.ssh
+VOLUME /streisand/generated-docs
 
 WORKDIR /streisand
 
